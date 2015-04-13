@@ -1,15 +1,14 @@
-#version: 1.4.0
-#apiversion: 1.4.0
-#description: Notificare Mobile Marketing Platform
-#author: Joris Verbogt <joris@notifica.re>
-#license: Simplified BSD
-#copyright: (c) 2015 Notificare B.V.
+version: 1.4.0
+apiversion: 2
+architectures: armeabi armeabi-v7a x86
+description: notificare-titanium-android
+author: Notificare
+license: MIT
+copyright: Copyright (c) 2015 by Notificare
 
-#appname: notificare-titanium-android
-#publisher: Notificare Mobile Marketing Platform
-#url: https://notifica.re
-#image: appicon.png
-#appid: ti.notificare
-#desc: Rich and interactive push notifications for Android. Enhance your apps with location based messages and iBeacon technology that really works.
-#type: module
-#guid: 4c9abe11-2f16-4e7e-aea3-21757697f361
+# these should not be edited
+name: notificare-titanium-android
+moduleid: ti.notificare
+guid: 8664442b-01c0-4167-925b-b93b2c8eaf2f
+platform: android
+minsdk: 3.5.1.GA

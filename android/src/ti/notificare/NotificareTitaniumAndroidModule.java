@@ -15,6 +15,8 @@ import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 
+import re.notifica.Notificare;
+
 
 @Kroll.module(name="NotificareTitaniumAndroid", id="ti.notificare")
 public class NotificareTitaniumAndroidModule extends KrollModule
@@ -36,7 +38,10 @@ public class NotificareTitaniumAndroidModule extends KrollModule
 	public static void onAppCreate(TiApplication app)
 	{
 		Log.d(LCAT, "inside onAppCreate");
-		// put module init code that needs to run when the application is created
+		TiApplication appContext = TiApplication.getInstance();
+		Notificare.shared().launch(appContext);
+		Notificare.shared().setIntentReceiver(IntentReceiver.class);
+	
 	}
 
 	// Methods

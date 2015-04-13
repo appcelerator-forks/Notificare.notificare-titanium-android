@@ -7,6 +7,71 @@
 	<iphone>
 	</iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<manifest>
+		
+		    <!-- PERMISSIONS -->
+		    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+		    <uses-permission android:name="android.permission.WAKE_LOCK" />
+		    <uses-permission android:name="android.permission.INTERNET" />
+		
+		    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+		    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+		    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+		    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+		
+		    <!-- This app has permission to register and receive message -->
+		    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+		
+		    <!-- PERMISSIONS REQUIRED for C2DM  -->
+		    <permission android:name="${tiapp.properties['id']}.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+		    <uses-permission android:name="${tiapp.properties['id']}.permission.C2D_MESSAGE" />
+		
+		    <!--<uses-permission android:name="com.android.vending.BILLING" />-->
+		
+		    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="22" />
+		
+		    <application>
+
+		        <!--
+		     BroadcastReceiver that will receive intents from GCM
+		     services and handle them to your app's IntentService.
+		     The com.google.android.c2dm.permission.SEND permission is necessary
+		     so only GCM services can send data messages for the app.
+		   -->
+		        <receiver
+		            android:name="re.notifica.push.gcm.PushReceiver"
+		            android:permission="com.google.android.c2dm.permission.SEND" >
+		            <intent-filter>
+		                <!-- Receives the actual messages. -->
+		                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+		                <!-- Receives the registration id. -->
+		                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+		                <!-- Replace with your package name -->
+		                <category android:name="${tiapp.properties['id']}" />
+		            </intent-filter>
+		        </receiver>
+		        <!--
+		            Service running in the background that receives your Push Notifications
+		         -->
+		        <service android:name="re.notifica.push.gcm.PushService"
+		            android:label="Notificare Push Service" />
+		
+		        <!--
+		            Receiver to dispatch GCM registration, push notifications and custom push actions.
+		            By default, it will register the device as an anonymous user, launch the default
+		            Notification activity declared below when receiving notifications, and will
+		            launch your main activity with a "custom action" intent when a user selected
+		            a custom push action.
+		            Most likely you will need customized registration and dispatching; please override
+		            this class or the BaseIntentReceiver parent class.
+		         -->
+		        <receiver android:name=".IntentReceiver" />
+
+		
+		    </application>
+		
+		</manifest>
 	</android>
 	<mobileweb>
 	</mobileweb>
