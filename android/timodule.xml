@@ -51,6 +51,16 @@
 		                <category android:name="${tiapp.properties['id']}" />
 		            </intent-filter>
 		        </receiver>
+		        
+		        <activity
+		            android:name="re.notifica.ui.NotificationActivity"
+		            android:parentActivityName=".${tiapp.properties['name']}Activity"
+		            android:screenOrientation="portrait"
+		            android:configChanges="keyboardHidden|orientation">
+		            <meta-data
+		                android:name="android.support.PARENT_ACTIVITY"
+		                android:value=".${tiapp.properties['name']}Activity"/>
+		        </activity>
 		        <!--
 		            Service running in the background that receives your Push Notifications
 		         -->
@@ -66,8 +76,17 @@
 		            Most likely you will need customized registration and dispatching; please override
 		            this class or the BaseIntentReceiver parent class.
 		         -->
-		        <receiver android:name=".IntentReceiver" />
+		        <receiver android:name="ti.notificare.IntentReceiver" />
 
+				<!-- Google Play Services version -->
+		        <meta-data
+		            android:name="com.google.android.gms.version"
+		            android:value="@integer/google_play_services_version" />
+		            
+		        <!-- API key for Google Maps -->
+		        <meta-data
+		            android:name="com.google.android.maps.v2.API_KEY"
+		            android:value="AIzaSyASd9psfiY0OWOjrjmalerIT6tQ9F_pyaQ" />
 		
 		    </application>
 		

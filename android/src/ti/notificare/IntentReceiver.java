@@ -2,6 +2,9 @@ package ti.notificare;
 
 import java.util.List;
 
+import org.appcelerator.kroll.KrollDict;
+import org.appcelerator.titanium.TiApplication;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +13,6 @@ import re.notifica.NotificareCallback;
 import re.notifica.NotificareError;
 import re.notifica.model.NotificareNotification;
 import re.notifica.push.gcm.DefaultIntentReceiver;
-
 
 public class IntentReceiver extends DefaultIntentReceiver {
 
@@ -39,20 +41,9 @@ public class IntentReceiver extends DefaultIntentReceiver {
     @Override
     public void onReady() {
 
-        try {
-            if (!Notificare.shared().isNotificationsEnabled()) {
-                Notificare.shared().enableNotifications();
-            }
-        } catch (Exception e) {
-            Log.d(TAG, "Error on notification enabled");
-        }
+    	TiApplication appContext = TiApplication.getInstance();
+    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("ready", new KrollDict());
 
-        //if(Notificare.shared().isLocationUpdatesEnabled()){
-            Notificare.shared().enableLocationUpdates();
-        //}
-
-        Notificare.shared().enableBeacons();
-//        Notificare.shared().enableBilling();
     }
 
     @Override
@@ -60,6 +51,9 @@ public class IntentReceiver extends DefaultIntentReceiver {
 		Log.d(TAG, "Device was registered with GCM as device " + deviceId);
 		// Register as a device for a test userID
 		
+		TiApplication appContext = TiApplication.getInstance();
+    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("registered", deviceId);
+    	
 		Notificare.shared().registerDevice(deviceId, new NotificareCallback<String>() {
 
 			@Override
@@ -76,6 +70,8 @@ public class IntentReceiver extends DefaultIntentReceiver {
 					@Override
 					public void onSuccess(List<String> arg0) {
 
+						TiApplication appContext = TiApplication.getInstance();
+				    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("tags", arg0);
 						 
 					}
 					

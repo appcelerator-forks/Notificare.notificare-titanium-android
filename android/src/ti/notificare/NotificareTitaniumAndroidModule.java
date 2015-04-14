@@ -8,18 +8,30 @@
  */
 package ti.notificare;
 
+import java.util.List;
+
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
-
 import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 
 import re.notifica.Notificare;
+import re.notifica.NotificareError;
+import re.notifica.beacon.BeaconRangingListener;
+import re.notifica.billing.BillingManager;
+import re.notifica.billing.BillingResult;
+import re.notifica.billing.Purchase;
+import re.notifica.model.NotificareBeacon;
+import re.notifica.model.NotificareProduct;
+import re.notifica.model.NotificareRegion;
+import re.notifica.model.NotificareUser;
+import re.notifica.ui.UserPreferencesActivity;
+import ti.notificare.IntentReceiver;
 
 
 @Kroll.module(name="NotificareTitaniumAndroid", id="ti.notificare")
-public class NotificareTitaniumAndroidModule extends KrollModule
+public class NotificareTitaniumAndroidModule extends KrollModule implements BeaconRangingListener,Notificare.OnBillingReadyListener, BillingManager.OnRefreshFinishedListener, BillingManager.OnPurchaseFinishedListener
 {
 
 	// Standard Debugging variables
@@ -31,27 +43,42 @@ public class NotificareTitaniumAndroidModule extends KrollModule
 
 	public NotificareTitaniumAndroidModule()
 	{
-		super();
+		super(LCAT);
 	}
 
 	@Kroll.onAppCreate
 	public static void onAppCreate(TiApplication app)
 	{
 		Log.d(LCAT, "inside onAppCreate");
-		TiApplication appContext = TiApplication.getInstance();
-		Notificare.shared().launch(appContext);
+		Notificare.shared().launch(app);
 		Notificare.shared().setIntentReceiver(IntentReceiver.class);
 	
 	}
 
 	// Methods
 	@Kroll.method
-	public String example()
+	public void enableNotifications()
 	{
-		Log.d(LCAT, "example called");
-		return "hello world";
+		Notificare.shared().enableNotifications();
 	}
 
+	@Kroll.method
+	public void enableLocationUpdates()
+	{
+		Notificare.shared().enableLocationUpdates();
+	}
+	
+	@Kroll.method
+	public void enableBeacons()
+	{
+		Notificare.shared().enableBeacons();
+	}
+	
+	@Kroll.method
+	public void enableBilling()
+	{
+		Notificare.shared().enableBilling();
+	}
 	// Properties
 	@Kroll.getProperty
 	public String getExampleProp()
@@ -64,6 +91,36 @@ public class NotificareTitaniumAndroidModule extends KrollModule
 	@Kroll.setProperty
 	public void setExampleProp(String value) {
 		Log.d(LCAT, "set example property: " + value);
+	}
+
+	@Override
+	public void onPurchaseFinished(BillingResult arg0, Purchase arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRefreshFailed(NotificareError arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRefreshFinished() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onBillingReady() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRangingBeacons(List<NotificareBeacon> arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
