@@ -1,4 +1,0 @@
-1.4.0   20-04-2015 Joel Oliveira
-- Final Android implementation
-1.0.0   10-04-2015 Joel Oliveira
-- Initial Android implementation
