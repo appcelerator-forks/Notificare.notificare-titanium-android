@@ -62,10 +62,10 @@ public class IntentReceiver extends DefaultIntentReceiver {
 		// Register as a device for a test userID
 		
 		TiApplication appContext = TiApplication.getInstance();
-    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("registered", deviceId);
-    	
-		
-        
+		HashMap<String, Object> event = new HashMap<String, Object>();
+	    event.put("device", deviceId);
+    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("registration", event);
+
 	}
 
 	@Override

@@ -259,11 +259,6 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 		return this.userName;
 	}
 
-
-	@Kroll.setProperty
-	public void setExampleProp(String value) {
-		Log.d(LCAT, "set example property: " + value);
-	}
 	
 	public void getTags(){
 		Notificare.shared().fetchDeviceTags(new NotificareCallback<List<String>>() {
