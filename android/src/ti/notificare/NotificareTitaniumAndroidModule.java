@@ -35,7 +35,7 @@ import ti.notificare.IntentReceiver;
 
 
 @Kroll.module(name="NotificareTitaniumAndroid", id="ti.notificare")
-public class NotificareTitaniumAndroidModule extends KrollModule implements BeaconRangingListener,Notificare.OnBillingReadyListener, BillingManager.OnRefreshFinishedListener, BillingManager.OnPurchaseFinishedListener
+public class NotificareTitaniumAndroidModule extends KrollModule implements Notificare.OnBillingReadyListener, BillingManager.OnRefreshFinishedListener, BillingManager.OnPurchaseFinishedListener
 {
 
 	// Standard Debugging variables
@@ -59,15 +59,14 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 		Log.d(LCAT, "inside onAppCreate");
 		Notificare.shared().launch(app);
 		Notificare.shared().setIntentReceiver(IntentReceiver.class);
-	
+		
+		
 	}
 
 	
 	@Override
 	public void onStart(Activity activity) 
 	{
-		// This method is called when the module is loaded and the root context is started
-		
 		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] start");
 		
 		super.onStart(activity);
@@ -89,7 +88,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 		// This method is called when the root context is being suspended
 		
 		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] pause");
-		Notificare.shared().setForeground(false);
+		//Notificare.shared().setForeground(false);
 		super.onPause(activity);
 	}
 	
@@ -410,20 +409,6 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 		if(nModule != null){
 			nModule.fireEvent("store", new KrollDict());
 		}
-		
-	}
-
-	@Override
-	public void onRangingBeacons(List<NotificareBeacon> arg0) {
-		
-		NotificareTitaniumAndroidModule nModule = getModule();
-		
-		if(nModule != null){
-			HashMap<String, Object> event = new HashMap<String, Object>();
-		    event.put("beacons", arg0);
-		    nModule.fireEvent("range", event);
-		}
-		
 		
 	}
 

@@ -1,5 +1,6 @@
 package ti.notificare;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import android.util.Log;
 import re.notifica.Notificare;
 import re.notifica.NotificareCallback;
 import re.notifica.NotificareError;
+import re.notifica.model.NotificareBeacon;
 import re.notifica.model.NotificareNotification;
 import re.notifica.push.gcm.DefaultIntentReceiver;
 
@@ -27,7 +29,7 @@ public class IntentReceiver extends DefaultIntentReceiver {
 		NotificareTitaniumAndroidModule nModule = (NotificareTitaniumAndroidModule)appContext.getModuleByName("NotificareTitaniumAndroidModule");
 	
 		if (nModule == null) {
-			Log.w(LCAT,"Notificare module not currently loaded");
+			Log.w(LCAT,"Notificare: module not currently loaded");
 		}
 		return nModule;
 	}
@@ -94,6 +96,34 @@ public class IntentReceiver extends DefaultIntentReceiver {
 		//Log.d(TAG, "Custom action was received: " + target.toString());
 		// By default, pass the target as data URI to your main activity in a launch intent
 		super.onActionReceived(target);
+	}
+	
+	@Override
+	public void onRangingBeacons(List<NotificareBeacon> arg0) {
+		
+		NotificareTitaniumAndroidModule nModule = getModule();
+		
+		if(nModule != null){
+			List<Object> beacons = new ArrayList<Object>();
+
+			for (NotificareBeacon beacon : arg0) {
+				HashMap<String, String> b = new HashMap<String, String>();
+                b.put("id", beacon.getBeaconId());
+                b.put("name", beacon.getName());
+                b.put("notification", beacon.getNotificationId());
+                b.put("proximity", beacon.getProximity().toString());
+                b.put("purpose", beacon.getPurpose());
+                b.put("region", beacon.getRegionId());
+                b.put("major", Integer.toString(beacon.getMajor()));
+                b.put("minor", Integer.toString(beacon.getMinor()));
+                beacons.add(b);
+            }
+			HashMap<String, Object> event = new HashMap<String, Object>();
+		    event.put("beacons", beacons.toArray());
+		    nModule.fireEvent("range", event);
+		}
+		
+		super.onRangingBeacons(arg0);
 	}
 	
 	@Override
