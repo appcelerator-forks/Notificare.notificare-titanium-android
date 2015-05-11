@@ -18,6 +18,7 @@ import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 
+import android.app.Activity;
 import re.notifica.Notificare;
 import re.notifica.NotificareCallback;
 import re.notifica.NotificareError;
@@ -94,10 +95,14 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 			@Override
 			public void onSuccess(String result) {
 				
-				TiApplication appContext = TiApplication.getInstance();
-				HashMap<String, Object> event = new HashMap<String, Object>();
-			    event.put("device", result);
-		    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("registered", event);
+				NotificareTitaniumAndroidModule nModule = getModule();
+				
+				if(nModule != null){
+					HashMap<String, Object> event = new HashMap<String, Object>();
+				    event.put("device", result);
+				    nModule.fireEvent("registered", event);
+				}
+				
 		    	
 				Notificare.shared().fetchDeviceTags(new NotificareCallback<List<String>>() {
 
@@ -110,11 +115,14 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 					@Override
 					public void onSuccess(List<String> arg0) {
 
-						TiApplication appContext = TiApplication.getInstance();
-						HashMap<String, Object> event = new HashMap<String, Object>();
-					    event.put("tags", arg0);
-				    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("tags", event);
-						 
+						NotificareTitaniumAndroidModule nModule = getModule();
+						
+						if(nModule != null){
+							HashMap<String, Object> event = new HashMap<String, Object>();
+						    event.put("tags", arg0);
+					    	nModule.fireEvent("tags", event);
+						}
+
 					}
 					
 				});
@@ -154,10 +162,14 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 					@Override
 					public void onSuccess(List<String> arg0) {
 
-						TiApplication appContext = TiApplication.getInstance();
-						HashMap<String, Object> event = new HashMap<String, Object>();
-					    event.put("tags", arg0);
-				    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("tags", event);
+						NotificareTitaniumAndroidModule nModule = getModule();
+						
+						if(nModule != null){
+							HashMap<String, Object> event = new HashMap<String, Object>();
+						    event.put("tags", arg0);
+						    nModule.fireEvent("tags", event);
+						}
+						
 						 
 					}
 					
@@ -193,10 +205,14 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 					@Override
 					public void onSuccess(List<String> arg0) {
 
-						TiApplication appContext = TiApplication.getInstance();
-						HashMap<String, Object> event = new HashMap<String, Object>();
-					    event.put("tags", arg0);
-				    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("tags", event);
+						NotificareTitaniumAndroidModule nModule = getModule();
+						
+						if(nModule != null){
+							HashMap<String, Object> event = new HashMap<String, Object>();
+						    event.put("tags", arg0);
+						    nModule.fireEvent("tags", event);
+						}
+						
 						 
 					}
 					
@@ -233,10 +249,14 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 					@Override
 					public void onSuccess(List<String> arg0) {
 
-						TiApplication appContext = TiApplication.getInstance();
-						HashMap<String, Object> event = new HashMap<String, Object>();
-					    event.put("tags", arg0);
-				    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("tags", event);
+						NotificareTitaniumAndroidModule nModule = getModule();
+						
+						if(nModule != null){
+							HashMap<String, Object> event = new HashMap<String, Object>();
+						    event.put("tags", arg0);
+						    nModule.fireEvent("tags", event);
+						}
+						
 						 
 					}
 					
@@ -245,6 +265,16 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 			}
 			
 		});
+	}
+	
+	private static NotificareTitaniumAndroidModule getModule() {
+		TiApplication appContext = TiApplication.getInstance();
+		NotificareTitaniumAndroidModule nModule = (NotificareTitaniumAndroidModule)appContext.getModuleByName("NotificareTitaniumAndroidModule");
+	
+		if (nModule == null) {
+			Log.w(LCAT,"Notificare module not currently loaded");
+		}
+		return nModule;
 	}
 	
 	// Properties
@@ -272,10 +302,14 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 			@Override
 			public void onSuccess(List<String> arg0) {
 
-				TiApplication appContext = TiApplication.getInstance();
-				HashMap<String, Object> event = new HashMap<String, Object>();
-			    event.put("tags", arg0);
-		    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("tags", event);
+				NotificareTitaniumAndroidModule nModule = getModule();
+				
+				if(nModule != null){
+					HashMap<String, Object> event = new HashMap<String, Object>();
+				    event.put("tags", arg0);
+				    nModule.fireEvent("tags", event);
+				}
+				
 				 
 			}
 			
@@ -285,20 +319,28 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 	@Override
 	public void onPurchaseFinished(BillingResult arg0, Purchase arg1) {
 		
-		TiApplication appContext = TiApplication.getInstance();
-		HashMap<String, Object> event = new HashMap<String, Object>();
-	    event.put("transaction", arg1);
-    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("transaction", event);
+		NotificareTitaniumAndroidModule nModule = getModule();
+		
+		if(nModule != null){
+			HashMap<String, Object> event = new HashMap<String, Object>();
+		    event.put("transaction", arg1);
+	    	nModule.fireEvent("transaction", event);
+		}	
 		
 	}
 
 	@Override
 	public void onRefreshFailed(NotificareError arg0) {
 		// TODO Auto-generated method stub
-		TiApplication appContext = TiApplication.getInstance();
-		HashMap<String, Object> event = new HashMap<String, Object>();
-	    event.put("error", arg0);
-    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("errors", event);
+		NotificareTitaniumAndroidModule nModule = getModule();
+		
+		if(nModule != null){
+			HashMap<String, Object> event = new HashMap<String, Object>();
+		    event.put("error", arg0);
+		    nModule.fireEvent("errors", event);
+		}
+
+		
 	}
 
 	@Override
@@ -306,19 +348,30 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	
+	
 	@Override
 	public void onBillingReady() {
-		TiApplication appContext = TiApplication.getInstance();
-    	appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("store", new KrollDict());
+		NotificareTitaniumAndroidModule nModule = getModule();
+		
+		if(nModule != null){
+			nModule.fireEvent("store", new KrollDict());
+		}
+		
 	}
 
 	@Override
 	public void onRangingBeacons(List<NotificareBeacon> arg0) {
-		TiApplication appContext = TiApplication.getInstance();
-		HashMap<String, Object> event = new HashMap<String, Object>();
-	    event.put("beacons", arg0);
-		appContext.getModuleByName("NotificareTitaniumAndroidModule").fireEvent("range", event);
+		
+		NotificareTitaniumAndroidModule nModule = getModule();
+		
+		if(nModule != null){
+			HashMap<String, Object> event = new HashMap<String, Object>();
+		    event.put("beacons", arg0);
+		    nModule.fireEvent("range", event);
+		}
+		
 		
 	}
 
