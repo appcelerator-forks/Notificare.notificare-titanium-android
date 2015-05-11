@@ -62,6 +62,58 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Beac
 	
 	}
 
+	
+	@Override
+	public void onStart(Activity activity) 
+	{
+		// This method is called when the module is loaded and the root context is started
+		
+		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] start");
+		
+		super.onStart(activity);
+	}
+	
+	@Override
+	public void onStop(Activity activity) 
+	{
+		// This method is called when the root context is stopped 
+		
+		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] stop");
+		
+		super.onStop(activity);
+	}
+	
+	@Override
+	public void onPause(Activity activity) 
+	{
+		// This method is called when the root context is being suspended
+		
+		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] pause");
+		Notificare.shared().setForeground(false);
+		super.onPause(activity);
+	}
+	
+	@Override
+	public void onResume(Activity activity) 
+	{		
+		// This method is called when the root context is being resumed
+		
+		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] resume");	
+		Notificare.shared().setForeground(true);
+		super.onResume(activity);
+	}
+	
+	@Override
+	public void onDestroy(Activity activity) 
+	{
+		// This method is called when the root context is being destroyed
+		
+		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] destroy");
+		
+		super.onDestroy(activity);
+	}
+	
+	
 	// Methods
 	@Kroll.method
 	public void enableNotifications()
