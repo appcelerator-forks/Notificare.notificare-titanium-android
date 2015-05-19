@@ -8,6 +8,11 @@ Titanium module for Notificare Mobile Marketing Platform. Before you start make 
 
 See sample app in example/app.js. For documentation please refer to: https://notificare.atlassian.net/wiki/display/notificare/Getting+started+with+Titanium
 
+## Compiled Module
+
+Grab the compiled module from the ‘/dist’ folder. 
+
+
 ## Accessing the Notificare Module
 
 To access this module from JavaScript, you would do the following:
