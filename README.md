@@ -10,7 +10,7 @@ See sample app in example/app.js. For documentation please refer to: https://not
 
 ## Compiled Module
 
-Grab the compiled module from the ‘/dist’ folder. 
+Grab the compiled module from the ‘/dist’ folder or [click to download](https://github.com/Notificare/notificare-titanium-android/raw/master/dist/ti.notificare-android-1.1.3.zip)
 
 
 ## Accessing the Notificare Module
