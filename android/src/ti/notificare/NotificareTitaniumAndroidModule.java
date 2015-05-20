@@ -68,7 +68,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	public void onStart(Activity activity) 
 	{
 		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] start");
-		
+		Notificare.shared().setForeground(true);
 		super.onStart(activity);
 	}
 	
@@ -78,7 +78,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 		// This method is called when the root context is stopped 
 		
 		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] stop");
-		
+		Notificare.shared().setForeground(true);
 		super.onStop(activity);
 	}
 	
@@ -88,7 +88,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 		// This method is called when the root context is being suspended
 		
 		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] pause");
-		//Notificare.shared().setForeground(false);
+		Notificare.shared().setForeground(true);
 		super.onPause(activity);
 	}
 	

@@ -26,6 +26,7 @@ public class IntentReceiver extends DefaultIntentReceiver {
 	
 	private static NotificareTitaniumAndroidModule getModule() {
 		TiApplication appContext = TiApplication.getInstance();
+		
 		NotificareTitaniumAndroidModule nModule = (NotificareTitaniumAndroidModule)appContext.getModuleByName("NotificareTitaniumAndroidModule");
 	
 		if (nModule == null) {
