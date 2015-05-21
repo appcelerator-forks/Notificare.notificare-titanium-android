@@ -5,34 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.appcelerator.kroll.KrollDict;
-import org.appcelerator.titanium.TiApplication;
 
+import re.notifica.model.NotificareBeacon;
+import re.notifica.push.gcm.DefaultIntentReceiver;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import re.notifica.Notificare;
-import re.notifica.NotificareCallback;
-import re.notifica.NotificareError;
-import re.notifica.model.NotificareBeacon;
-import re.notifica.model.NotificareNotification;
-import re.notifica.push.gcm.DefaultIntentReceiver;
 
 public class IntentReceiver extends DefaultIntentReceiver {
 
 	public static final String PREFS_NAME = "AppPrefsFile";
-	private static final String TAG = IntentReceiver.class.getSimpleName();
-	private static final String LCAT = "IntentReceiver";
-	
-	private static NotificareTitaniumAndroidModule getModule() {
-		TiApplication appContext = TiApplication.getInstance();
-		NotificareTitaniumAndroidModule nModule = (NotificareTitaniumAndroidModule)appContext.getModuleByName("NotificareTitaniumAndroidModule");
-	
-		if (nModule == null) {
-			Log.w(LCAT,"Notificare: module not currently loaded");
-		}
-		return nModule;
-	}
+	//private static final String TAG = IntentReceiver.class.getSimpleName();
 	
 	@Override
 	public void onNotificationReceived(String alert, String notificationId,
@@ -45,10 +28,10 @@ public class IntentReceiver extends DefaultIntentReceiver {
 	    event.put("alert", alert);
 	    event.put("extras", extras);
 	    
-	    NotificareTitaniumAndroidModule nModule = getModule();
+	    NotificareTitaniumAndroidModule module = NotificareTitaniumAndroidModule.getModule();
 		
-		if(nModule != null){
-			nModule.fireEvent("notification", event);
+		if (module != null) {
+			module.fireEvent("notification", event);
 		}
 
 		super.onNotificationReceived(alert, notificationId, extras);
@@ -68,10 +51,10 @@ public class IntentReceiver extends DefaultIntentReceiver {
     @Override
     public void onReady() {
     	
-    	NotificareTitaniumAndroidModule nModule = NotificareTitaniumAndroidModule.getModule();
+    	NotificareTitaniumAndroidModule module = NotificareTitaniumAndroidModule.getModule();
 		
-		if(nModule != null){
-			nModule.fireEvent("ready", new KrollDict());
+		if (module != null) {
+			module.fireEvent("ready", new KrollDict());
 		}
 
     }
@@ -81,12 +64,12 @@ public class IntentReceiver extends DefaultIntentReceiver {
 		//Log.d(TAG, "Device was registered with GCM as device " + deviceId);
 		// Register as a device for a test userID
 		
-    	NotificareTitaniumAndroidModule nModule = getModule();
+    	NotificareTitaniumAndroidModule module = NotificareTitaniumAndroidModule.getModule();
 		
-		if(nModule != null){
+		if (module != null) {
 			HashMap<String, Object> event = new HashMap<String, Object>();
 		    event.put("device", deviceId);
-		    nModule.fireEvent("registration", event);
+		    module.fireEvent("registration", event);
 		}
 
 	}
@@ -101,9 +84,9 @@ public class IntentReceiver extends DefaultIntentReceiver {
 	@Override
 	public void onRangingBeacons(List<NotificareBeacon> arg0) {
 		
-		NotificareTitaniumAndroidModule nModule = getModule();
+		NotificareTitaniumAndroidModule module = NotificareTitaniumAndroidModule.getModule();
 		
-		if(nModule != null){
+		if (module != null) {
 			List<Object> beacons = new ArrayList<Object>();
 
 			for (NotificareBeacon beacon : arg0) {
@@ -119,8 +102,8 @@ public class IntentReceiver extends DefaultIntentReceiver {
                 beacons.add(b);
             }
 			HashMap<String, Object> event = new HashMap<String, Object>();
-		    event.put("beacons", beacons.toArray());
-		    nModule.fireEvent("range", event);
+		    event.put("beacons", beacons.toArray(new Object[beacons.size()]));
+		    module.fireEvent("range", event);
 		}
 		
 		super.onRangingBeacons(arg0);
@@ -129,13 +112,13 @@ public class IntentReceiver extends DefaultIntentReceiver {
 	@Override
 	public void onLocationUpdateReceived(Location location){
 
-		NotificareTitaniumAndroidModule nModule = getModule();
+		NotificareTitaniumAndroidModule module = NotificareTitaniumAndroidModule.getModule();
 		
-		if(nModule != null){
+		if (module != null) {
 			HashMap<String, Object> event = new HashMap<String, Object>();
 		    event.put("latitude", location.getLatitude());
 		    event.put("longitude", location.getLongitude());
-		    nModule.fireEvent("location", event);
+		    module.fireEvent("location", event);
 		}
 		
 		super.onLocationUpdateReceived(location);
