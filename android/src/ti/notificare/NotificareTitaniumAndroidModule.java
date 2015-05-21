@@ -8,13 +8,17 @@
  */
 package ti.notificare;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiApplication;
+import org.appcelerator.titanium.util.TiConvert;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 
@@ -57,6 +61,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	public static void onAppCreate(TiApplication app)
 	{
 		Log.d(LCAT, "inside onAppCreate");
+		
 		Notificare.shared().launch(app);
 		Notificare.shared().setIntentReceiver(IntentReceiver.class);
 		
@@ -169,8 +174,9 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 						NotificareTitaniumAndroidModule nModule = getModule();
 						
 						if(nModule != null){
+							
 							HashMap<String, Object> event = new HashMap<String, Object>();
-						    event.put("tags", arg0);
+						    event.put("tags", arg0.toArray());
 					    	nModule.fireEvent("tags", event);
 						}
 
@@ -189,8 +195,20 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	}
 	
 	@Kroll.method
-	public void addTags(List<String> tags)
+	public void addTags(Object[] rawTags) 
 	{
+		
+		
+		List<Object> l = Arrays.asList(rawTags); 
+		
+		List<String> tags = new ArrayList<String>();
+		for (Object tag : l) {
+
+			System.out.println(tag.toString());
+			
+			//tags.add(tag);
+		}
+			
 		Notificare.shared().addDeviceTags(tags, new NotificareCallback<Boolean>(){
 
 			@Override
@@ -217,7 +235,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 						
 						if(nModule != null){
 							HashMap<String, Object> event = new HashMap<String, Object>();
-						    event.put("tags", arg0);
+						    event.put("tags", arg0.toArray());
 						    nModule.fireEvent("tags", event);
 						}
 						
@@ -260,7 +278,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 						
 						if(nModule != null){
 							HashMap<String, Object> event = new HashMap<String, Object>();
-						    event.put("tags", arg0);
+						    event.put("tags", arg0.toArray());
 						    nModule.fireEvent("tags", event);
 						}
 						
@@ -304,7 +322,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 						
 						if(nModule != null){
 							HashMap<String, Object> event = new HashMap<String, Object>();
-						    event.put("tags", arg0);
+						    event.put("tags", arg0.toArray());
 						    nModule.fireEvent("tags", event);
 						}
 						
@@ -357,7 +375,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 				
 				if(nModule != null){
 					HashMap<String, Object> event = new HashMap<String, Object>();
-				    event.put("tags", arg0);
+				    event.put("tags", arg0.toArray());
 				    nModule.fireEvent("tags", event);
 				}
 				
