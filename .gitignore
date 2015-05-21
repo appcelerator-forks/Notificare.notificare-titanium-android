@@ -1,2 +1,5 @@
 android/build/*
 android/build.properties
+android/dist/*
+android/libs/*
+

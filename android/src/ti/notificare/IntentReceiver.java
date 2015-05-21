@@ -68,7 +68,7 @@ public class IntentReceiver extends DefaultIntentReceiver {
     @Override
     public void onReady() {
     	
-    	NotificareTitaniumAndroidModule nModule = getModule();
+    	NotificareTitaniumAndroidModule nModule = NotificareTitaniumAndroidModule.getModule();
 		
 		if(nModule != null){
 			nModule.fireEvent("ready", new KrollDict());

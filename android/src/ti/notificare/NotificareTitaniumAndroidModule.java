@@ -10,6 +10,7 @@ package ti.notificare;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollModule;
@@ -52,7 +53,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	{
 		super(LCAT);
 	}
-
+	
 	@Kroll.onAppCreate
 	public static void onAppCreate(TiApplication app)
 	{
@@ -86,30 +87,26 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	public void onPause(Activity activity) 
 	{
 		// This method is called when the root context is being suspended
-		
+		super.onPause(activity);		
 		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] pause");
-		//Notificare.shared().setForeground(false);
-		super.onPause(activity);
+		Notificare.shared().setForeground(false);
 	}
 	
 	@Override
 	public void onResume(Activity activity) 
 	{		
 		// This method is called when the root context is being resumed
-		
+		super.onResume(activity);		
 		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] resume");	
 		Notificare.shared().setForeground(true);
-		super.onResume(activity);
 	}
 	
 	@Override
 	public void onDestroy(Activity activity) 
 	{
 		// This method is called when the root context is being destroyed
-		
+		super.onDestroy(activity);		
 		Log.d(LCAT, "[MODULE LIFECYCLE EVENT] destroy");
-		
-		super.onDestroy(activity);
 	}
 	
 	
@@ -158,19 +155,18 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 				Notificare.shared().fetchDeviceTags(new NotificareCallback<List<String>>() {
 
 					@Override
-					public void onError(NotificareError arg0) {
-						// TODO Auto-generated method stub
-
+					public void onError(NotificareError error) {
+						Log.e(LCAT, error.getMessage());
 					}
 
 					@Override
-					public void onSuccess(List<String> arg0) {
+					public void onSuccess(List<String> tags) {
 
 						NotificareTitaniumAndroidModule nModule = getModule();
 						
-						if(nModule != null){
+						if (nModule != null) {
 							HashMap<String, Object> event = new HashMap<String, Object>();
-						    event.put("tags", arg0);
+						    event.put("tags", tags.toArray(new Object[tags.size()]));
 					    	nModule.fireEvent("tags", event);
 						}
 
@@ -189,35 +185,39 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	}
 	
 	@Kroll.method
-	public void addTags(List<String> tags)
+	public void addTags(@Kroll.argument(optional=false, name="tags") String[] tags)
 	{
-		Notificare.shared().addDeviceTags(tags, new NotificareCallback<Boolean>(){
+		Log.i(LCAT, "Length: " + tags.length);
+		ArrayList<String> tagsList = new ArrayList<String>(tags.length);
+		for (String tag: tags) {
+			tagsList.add(tag);
+		}
+		
+		Notificare.shared().addDeviceTags(tagsList, new NotificareCallback<Boolean>(){
 
 			@Override
-			public void onError(NotificareError arg0) {
-				// TODO Auto-generated method stub
-				
+			public void onError(NotificareError error) {
+				Log.e(LCAT, error.getMessage(), error);
 			}
 
 			@Override
-			public void onSuccess(Boolean arg0) {
+			public void onSuccess(Boolean success) {
 				
 				Notificare.shared().fetchDeviceTags(new NotificareCallback<List<String>>() {
 
 					@Override
-					public void onError(NotificareError arg0) {
-						// TODO Auto-generated method stub
-
+					public void onError(NotificareError error) {
+						Log.e(LCAT, error.getMessage(), error);
 					}
 
 					@Override
-					public void onSuccess(List<String> arg0) {
+					public void onSuccess(List<String> tags) {
 
 						NotificareTitaniumAndroidModule nModule = getModule();
 						
-						if(nModule != null){
+						if (nModule != null) {
 							HashMap<String, Object> event = new HashMap<String, Object>();
-						    event.put("tags", arg0);
+						    event.put("tags", tags.toArray(new Object[tags.size()]));
 						    nModule.fireEvent("tags", event);
 						}
 						
@@ -237,30 +237,28 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 		Notificare.shared().removeDeviceTag(tag, new NotificareCallback<Boolean>(){
 
 			@Override
-			public void onError(NotificareError arg0) {
-				// TODO Auto-generated method stub
-				
+			public void onError(NotificareError error) {
+				Log.e(LCAT, error.getMessage(), error);
 			}
 
 			@Override
-			public void onSuccess(Boolean arg0) {
+			public void onSuccess(Boolean success) {
 				
 				Notificare.shared().fetchDeviceTags(new NotificareCallback<List<String>>() {
 
 					@Override
-					public void onError(NotificareError arg0) {
-						// TODO Auto-generated method stub
-
+					public void onError(NotificareError error) {
+						Log.e(LCAT, error.getMessage(), error);		
 					}
 
 					@Override
-					public void onSuccess(List<String> arg0) {
+					public void onSuccess(List<String> tags) {
 
 						NotificareTitaniumAndroidModule nModule = getModule();
 						
 						if(nModule != null){
 							HashMap<String, Object> event = new HashMap<String, Object>();
-						    event.put("tags", arg0);
+						    event.put("tags", tags.toArray(new Object[tags.size()]));
 						    nModule.fireEvent("tags", event);
 						}
 						
@@ -281,30 +279,28 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 		Notificare.shared().clearDeviceTags(new NotificareCallback<Boolean>(){
 
 			@Override
-			public void onError(NotificareError arg0) {
-				// TODO Auto-generated method stub
-				
+			public void onError(NotificareError error) {
+				Log.e(LCAT, error.getMessage(), error);
 			}
 
 			@Override
-			public void onSuccess(Boolean arg0) {
+			public void onSuccess(Boolean success) {
 				
 				Notificare.shared().fetchDeviceTags(new NotificareCallback<List<String>>() {
 
 					@Override
-					public void onError(NotificareError arg0) {
-						// TODO Auto-generated method stub
-
+					public void onError(NotificareError error) {
+						Log.e(LCAT, error.getMessage(), error);
 					}
 
 					@Override
-					public void onSuccess(List<String> arg0) {
+					public void onSuccess(List<String> tags) {
 
 						NotificareTitaniumAndroidModule nModule = getModule();
 						
-						if(nModule != null){
+						if (nModule != null) {
 							HashMap<String, Object> event = new HashMap<String, Object>();
-						    event.put("tags", arg0);
+						    event.put("tags", tags.toArray(new Object[tags.size()]));
 						    nModule.fireEvent("tags", event);
 						}
 						
@@ -318,7 +314,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 		});
 	}
 	
-	private static NotificareTitaniumAndroidModule getModule() {
+	public static NotificareTitaniumAndroidModule getModule() {
 		TiApplication appContext = TiApplication.getInstance();
 		NotificareTitaniumAndroidModule nModule = (NotificareTitaniumAndroidModule)appContext.getModuleByName("NotificareTitaniumAndroidModule");
 	
@@ -345,19 +341,18 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 		Notificare.shared().fetchDeviceTags(new NotificareCallback<List<String>>() {
 
 			@Override
-			public void onError(NotificareError arg0) {
-				// TODO Auto-generated method stub
-
+			public void onError(NotificareError error) {
+				Log.e(LCAT, error.getMessage(), error);
 			}
 
 			@Override
-			public void onSuccess(List<String> arg0) {
+			public void onSuccess(List<String> tags) {
 
 				NotificareTitaniumAndroidModule nModule = getModule();
 				
-				if(nModule != null){
+				if (nModule != null) {
 					HashMap<String, Object> event = new HashMap<String, Object>();
-				    event.put("tags", arg0);
+				    event.put("tags", tags.toArray(new Object[tags.size()]));
 				    nModule.fireEvent("tags", event);
 				}
 				
@@ -368,26 +363,25 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	}
 
 	@Override
-	public void onPurchaseFinished(BillingResult arg0, Purchase arg1) {
+	public void onPurchaseFinished(BillingResult result, Purchase purchase) {
 		
 		NotificareTitaniumAndroidModule nModule = getModule();
 		
-		if(nModule != null){
+		if (nModule != null) {
 			HashMap<String, Object> event = new HashMap<String, Object>();
-		    event.put("transaction", arg1);
+		    event.put("transaction", purchase);
 	    	nModule.fireEvent("transaction", event);
 		}	
 		
 	}
 
 	@Override
-	public void onRefreshFailed(NotificareError arg0) {
-		// TODO Auto-generated method stub
+	public void onRefreshFailed(NotificareError error) {
 		NotificareTitaniumAndroidModule nModule = getModule();
 		
-		if(nModule != null){
+		if (nModule != null) {
 			HashMap<String, Object> event = new HashMap<String, Object>();
-		    event.put("error", arg0);
+		    event.put("error", error);
 		    nModule.fireEvent("errors", event);
 		}
 
@@ -406,7 +400,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	public void onBillingReady() {
 		NotificareTitaniumAndroidModule nModule = getModule();
 		
-		if(nModule != null){
+		if (nModule != null) {
 			nModule.fireEvent("store", new KrollDict());
 		}
 		
