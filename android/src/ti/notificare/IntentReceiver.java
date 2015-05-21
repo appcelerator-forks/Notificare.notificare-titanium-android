@@ -1,3 +1,10 @@
+/**
+ * Notificare module for Appcelerator Titanium Mobile
+ * IntentReceiver
+ * @author Joel Oliveira <joel@notifica.re>
+ * @copyright 2013 - 2015 Notificare B.V.
+ * Please see the LICENSE included with this distribution for details.
+ */
 package ti.notificare;
 
 import java.util.ArrayList;
@@ -12,14 +19,16 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
+/**
+ * Intent receiver for Notificare intents
+ */
 public class IntentReceiver extends DefaultIntentReceiver {
 
 	public static final String PREFS_NAME = "AppPrefsFile";
 	//private static final String TAG = IntentReceiver.class.getSimpleName();
 	
 	@Override
-	public void onNotificationReceived(String alert, String notificationId,
-			Bundle extras) {
+	public void onNotificationReceived(String alert, String notificationId, Bundle extras) {
 		// Execute default behavior, i.e., put notification in drawer
 		//Log.d(TAG, " received with extra Notification" + extras.getString("mykey"));
 		
@@ -38,8 +47,7 @@ public class IntentReceiver extends DefaultIntentReceiver {
 	}
 
 	@Override
-	public void onNotificationOpened(String alert, String notificationId,
-			Bundle extras) {
+	public void onNotificationOpened(String alert, String notificationId, Bundle extras) {
 		// Notification is in extras
 		//NotificareNotification notification = extras.getParcelable(Notificare.INTENT_EXTRA_NOTIFICATION);
 		//Log.d(TAG, "Notification was opened with type " + notification.getType());
