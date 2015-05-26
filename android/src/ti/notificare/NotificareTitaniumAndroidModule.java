@@ -123,7 +123,7 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 		NotificareTitaniumAndroidModule module = getModule();
 		if (module != null) {
 			HashMap<String, Object> event = new HashMap<String, Object>();
-		    event.put("transaction", purchase);
+		    event.put("transaction", purchase.getProductId());
 		    module.fireEvent("transaction", event);
 		}	
 	}
