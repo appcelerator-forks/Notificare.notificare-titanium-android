@@ -59,7 +59,7 @@
 		        
 		        <activity
 		            android:name="re.notifica.ui.NotificationActivity"
-		            android:parentActivityName=".${tiapp.properties['name']}Activity"
+		            android:parentActivityName=".${config['classname']}Activity"
 		            android:screenOrientation="portrait"
 		            android:configChanges="keyboardHidden|orientation">
 		            <meta-data

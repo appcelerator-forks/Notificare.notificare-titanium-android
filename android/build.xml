@@ -44,7 +44,7 @@
 
 	<!-- Copy license -->
 	<copy todir="${basedir}" file="${basedir}/../LICENSE"/>
-
+	
 	<target name="cleancopy" description="Delete old copies">
 		<delete dir="${basedir}/documentation"/>
 		<delete dir="${basedir}/example"/>
