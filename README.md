@@ -17,9 +17,34 @@ Grab the compiled module from the ‘/dist’ folder or [click to download](http
 
 To access this module from JavaScript, you would do the following:
 
+```javascript
 	var Notificare = require("ti.notificare");
+```
 
-The Notificare variable is a reference to the Module object.	
+The Notificare variable is a reference to the Module object.
+
+In Alloy, you could set it to the Alloy.Globals to be accessible in other controllers.
+
+## Setting up lifecycle events in Android
+
+In Android, you will have to set your tab group or window as the lifecycle container for the Notificare module. For this, you can use the ActivityWorkerProxy class:
+
+```javascript
+	var tabGroup = Titanium.UI.createTabGroup();
+	tabGroup.notificareProxy = Notificare.createActivityWorker({lifecycleContainer: tabGroup});
+	tabGroup.open();
+```
+
+In Alloy, you can do this in your controller
+
+```javascript
+	(function init() {
+		$.index.notificareProxy = Alloy.Globals.Notificare.createActivityWorker({lifecycleContainer: $.index});
+		$.index.open();
+	})();
+```
+
+The Notificare module will take care of logging usage of the app as well as starting beacons ranging when the app is in foreground.
 
 ## Reference
 

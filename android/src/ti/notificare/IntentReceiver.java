@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.appcelerator.kroll.KrollDict;
 
+import re.notifica.Notificare;
 import re.notifica.model.NotificareBeacon;
 import re.notifica.push.gcm.DefaultIntentReceiver;
 import android.location.Location;
@@ -35,7 +36,23 @@ public class IntentReceiver extends DefaultIntentReceiver {
 		HashMap<String, Object> event = new HashMap<String, Object>();
 	    event.put("notification", notificationId);
 	    event.put("alert", alert);
-	    event.put("extras", extras);
+	    HashMap<String,Object> eventExtras = new HashMap<String, Object>();
+	    for (String key: extras.keySet()) {
+	    	if (!(key.equals(Notificare.INTENT_EXTRA_ALERT) || 
+	    			key.equals(Notificare.INTENT_EXTRA_DISPLAY_MESSAGE) || 
+	    			key.equals(Notificare.INTENT_EXTRA_NOTIFICATION_ID) || 
+	    			key.equals(Notificare.INTENT_EXTRA_NOTIFICATION) || 
+	    			key.equals(Notificare.INTENT_EXTRA_SOUND) || 
+	    			key.equals(Notificare.INTENT_EXTRA_LIGHTS_COLOR) || 
+	    			key.equals(Notificare.INTENT_EXTRA_LIGHTS_ON) ||
+	    			key.equals(Notificare.INTENT_EXTRA_LIGHTS_OFF) ||
+	    			key.equals(Notificare.INTENT_EXTRA_ACTION) || 
+	    			key.equals(Notificare.INTENT_EXTRA_ACTION_CATEGORY)
+	    	)) {
+	    		eventExtras.put(key, extras.getString(key));
+	    	}
+	    }
+	    event.put("extras", eventExtras);
 	    
 	    NotificareTitaniumAndroidModule module = NotificareTitaniumAndroidModule.getModule();
 		
@@ -90,31 +107,32 @@ public class IntentReceiver extends DefaultIntentReceiver {
 	}
 	
 	@Override
-	public void onRangingBeacons(List<NotificareBeacon> arg0) {
+	public void onRangingBeacons(List<NotificareBeacon> beacons) {
 		
 		NotificareTitaniumAndroidModule module = NotificareTitaniumAndroidModule.getModule();
 		
 		if (module != null) {
-			List<Object> beacons = new ArrayList<Object>();
+			List<Object> beaconsList = new ArrayList<Object>();
 
-			for (NotificareBeacon beacon : arg0) {
-				HashMap<String, String> b = new HashMap<String, String>();
+			for (NotificareBeacon beacon : beacons) {
+				HashMap<String, Object> b = new HashMap<String, Object>();
                 b.put("id", beacon.getBeaconId());
                 b.put("name", beacon.getName());
                 b.put("notification", beacon.getNotificationId());
                 b.put("proximity", beacon.getProximity().toString());
                 b.put("purpose", beacon.getPurpose());
                 b.put("region", beacon.getRegionId());
-                b.put("major", Integer.toString(beacon.getMajor()));
-                b.put("minor", Integer.toString(beacon.getMinor()));
-                beacons.add(b);
+                b.put("major", beacon.getMajor());
+                b.put("minor", beacon.getMinor());
+                b.put("currentProximity", beacon.getCurrentProximity());
+                b.put("currentDistance", beacon.getCurrentDistance());
+                b.put("currentAccuracy", beacon.getCurrentAccuracy());
+                beaconsList.add(b);
             }
 			HashMap<String, Object> event = new HashMap<String, Object>();
-		    event.put("beacons", beacons.toArray(new Object[beacons.size()]));
+		    event.put("beacons", beaconsList.toArray(new Object[beaconsList.size()]));
 		    module.fireEvent("range", event);
 		}
-		
-		super.onRangingBeacons(arg0);
 	}
 	
 	@Override

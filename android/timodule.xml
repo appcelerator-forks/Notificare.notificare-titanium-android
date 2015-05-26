@@ -106,12 +106,12 @@
 				<!-- Google Play Services version -->
 		        <meta-data
 		            android:name="com.google.android.gms.version"
-		            android:value="7095000" />
+		            android:value="@integer/google_play_services_version" />
 		            
 		        <!-- API key for Google Maps -->
 		        <meta-data
 		            android:name="com.google.android.maps.v2.API_KEY"
-		            android:value="AIzaSyASd9psfiY0OWOjrjmalerIT6tQ9F_pyaQ" />
+		            android:value="COPY GOOGLE MAPS KEY FROM GOOGLE API CONSOLE" />
 		
 		    </application>
 		

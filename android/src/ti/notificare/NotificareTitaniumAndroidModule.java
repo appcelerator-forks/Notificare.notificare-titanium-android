@@ -30,7 +30,9 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 {
 
 	// Standard Debugging variables
-	private static final String TAG = "NotificareTitaniumAndroidModule";
+	private static final String TAG = "NotificareTitanium";
+	
+	private static NotificareTitaniumAndroidModule module;
 	
 	public String userID;
 	public String userName;
@@ -40,7 +42,8 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 
 	public NotificareTitaniumAndroidModule()
 	{
-		super(TAG);
+		super();
+		module = this;
 	}
 	
 	/*
@@ -52,11 +55,11 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	 * @return
 	 */
 	public static NotificareTitaniumAndroidModule getModule() {
-		TiApplication appContext = TiApplication.getInstance();
-		NotificareTitaniumAndroidModule module = (NotificareTitaniumAndroidModule)appContext.getModuleByName("NotificareTitaniumAndroidModule");
-		if (module == null) {
-			Log.w(TAG,"Notificare module not currently loaded");
-		}
+//		TiApplication appContext = TiApplication.getInstance();
+//		NotificareTitaniumAndroidModule module = (NotificareTitaniumAndroidModule)appContext.getModuleByName("NotificareTitaniumAndroidModule");
+//		if (module == null) {
+//			Log.w(TAG,"Notificare module not currently loaded");
+//		}
 		return module;
 	}
 	
@@ -110,57 +113,11 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 	@Kroll.onAppCreate
 	public static void onAppCreate(TiApplication app)
 	{
-		Log.d(TAG, "[MODULE LIFECYCLE EVENT] app create");
+		Log.d(TAG, "Notificare module app create");
 		Notificare.shared().launch(app);
 		Notificare.shared().setIntentReceiver(IntentReceiver.class);
 	}
 
-	
-	@Override
-	public void onStart(Activity activity) 
-	{
-		Log.d(TAG, "[MODULE LIFECYCLE EVENT] start");
-		Notificare.shared().setForeground(true);
-		super.onStart(activity);
-	}
-	
-	@Override
-	public void onStop(Activity activity) 
-	{
-		// This method is called when the root context is stopped 
-		
-		Log.d(TAG, "[MODULE LIFECYCLE EVENT] stop");
-		Notificare.shared().setForeground(true);
-		super.onStop(activity);
-	}
-	
-	@Override
-	public void onPause(Activity activity) 
-	{
-		// This method is called when the root context is being suspended
-		super.onPause(activity);		
-		Log.d(TAG, "[MODULE LIFECYCLE EVENT] pause");
-		Notificare.shared().setForeground(false);
-		super.onPause(activity);
-	}
-	
-	@Override
-	public void onResume(Activity activity) 
-	{		
-		// This method is called when the root context is being resumed
-		super.onResume(activity);		
-		Log.d(TAG, "[MODULE LIFECYCLE EVENT] resume");	
-		Notificare.shared().setForeground(true);
-	}
-	
-	@Override
-	public void onDestroy(Activity activity) 
-	{
-		// This method is called when the root context is being destroyed
-		super.onDestroy(activity);		
-		Log.d(TAG, "[MODULE LIFECYCLE EVENT] destroy");
-	}
-	
 	@Override
 	public void onPurchaseFinished(BillingResult result, Purchase purchase) {
 		NotificareTitaniumAndroidModule module = getModule();
