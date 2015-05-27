@@ -1,19 +1,8 @@
-// The contents of this file will be executed before any of
-// your view controllers are ever executed, including the index.
-// You have access to all functionality on the `Alloy` namespace.
-//
-// This is a great place to do any initialization for your app
-// or create any global variables/functions that you'd like to
-// make available throughout your app. You can easily make things
-// accessible globally by attaching them to the `Alloy.Globals`
-// object. For example:
-//
-// Alloy.Globals.someGlobalFunction = function(){};
-
+/**
+ * Example app for Titanium
+ */
 
 var notificare = require('ti.notificare');
-
-Ti.API.info("module is => " + notificare);
 
 var deviceToken = null;
 
@@ -136,3 +125,68 @@ function openBeacons(e) {
 function openUserPreferences(e) {
     notificare.openUserPreferences(e);
 }
+
+
+// this sets the background color of the master UIView (when there are no windows/tab groups on it)
+Titanium.UI.setBackgroundColor('#000');
+
+// create tab group
+var tabGroup = Titanium.UI.createTabGroup();
+
+// create base UI tab and root window
+
+var win1 = Titanium.UI.createWindow({  
+    title:'Tab 1',
+    backgroundColor:'#fff'
+});
+var tab1 = Titanium.UI.createTab({  
+    icon:'KS_nav_views.png',
+    title:'Tab 1',
+    window:win1
+});
+
+var label1 = Titanium.UI.createLabel({
+	color:'#999',
+	text:'I am Window 1',
+	font:{fontSize:20,fontFamily:'Helvetica Neue'},
+	textAlign:'center',
+	width:'auto'
+});
+
+win1.add(label1);
+
+//
+// create controls tab and root window
+//
+var win2 = Titanium.UI.createWindow({  
+    title:'Tab 2',
+    backgroundColor:'#fff'
+});
+var tab2 = Titanium.UI.createTab({  
+    icon:'KS_nav_ui.png',
+    title:'Tab 2',
+    window:win2
+});
+
+var label2 = Titanium.UI.createLabel({
+	color:'#999',
+	text:'I am Window 2',
+	font:{fontSize:20,fontFamily:'Helvetica Neue'},
+	textAlign:'center',
+	width:'auto'
+});
+
+win2.add(label2);
+
+
+
+//
+//  add tabs
+//
+tabGroup.addTab(tab1);  
+tabGroup.addTab(tab2);  
+
+tabGroup.notificareProxy = notificare.createActivityWorker({lifecycleContainer: tabGroup});
+
+// open tab group
+tabGroup.open();

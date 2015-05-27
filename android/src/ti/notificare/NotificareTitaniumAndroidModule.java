@@ -217,7 +217,6 @@ public class NotificareTitaniumAndroidModule extends KrollModule implements Noti
 		for (String tag: tags) {
 			tagsList.add(tag);
 		}
-		
 		Notificare.shared().addDeviceTags(tagsList, new NotificareCallback<Boolean>(){
 
 			@Override
