@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 1.2.2	31-05-2015 Joris Verbogt
+- Added inbox
+- Added custom events
+- Added notification event
+- Removed backstack creation form AndroidManifest
+- Moved onReady listener to activity proxy
+
+## 1.2.1	27-05-2015 Joris Verbogt
+- Added resources / respackage
+- Fixed naming of parent activity
+
 ## 1.2.0 	21-05-2015 Joris Verbogt
 - Changed parameter types for arrays
 - Added lifecycle event proxy

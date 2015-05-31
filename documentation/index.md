@@ -8,9 +8,36 @@ Titanium module for Notificare Mobile Marketing Platform. Before you start make 
 
 To access this module from JavaScript, you would do the following:
 
+```javascript
 	var Notificare = require("ti.notificare");
+```
 
 The Notificare variable is a reference to the Module object.	
+
+Then, you need to hook up your view's lifecycle events to the module:
+
+```javascript
+	var win = Titanium.UI.createWindow({  
+	    title:'Window',
+	    backgroundColor:'#fff'
+	});
+	
+	if (Ti.Platform.name == "android") {
+		win.notificareProxy = notificare.createActivityWorker({lifecycleContainer: win});
+	}
+	win.open();
+```
+
+In Alloy, you should do this in your controller
+
+```javascript
+	(function init() {
+		if (Ti.Platform.name == "android"){
+			$.index.notificareProxy = Alloy.Globals.Notificare.createActivityWorker({lifecycleContainer: $.index});
+		}
+		$.index.open();
+	})();
+```
 
 ## Reference
 

@@ -9,10 +9,10 @@ exports.init = function (logger, config, cli, appc) {
 			if (data.args[1] && data.args[1].application && data.args[1].application.activity && data.ctx && data.ctx.classname) {
 				var parentActivityName = '.' + data.ctx.classname + 'Activity';
 				var activity = data.args[1].application.activity['re.notifica.ui.NotificationActivity'];
-				if (activity) {
+				if (activity && activity.parentActivityName) {
 					activity.parentActivityName = parentActivityName;
 					if (activity['meta-data'] && activity['meta-data']['android.support.PARENT_ACTIVITY']) {
-					activity['meta-data']['android.support.PARENT_ACTIVITY'].value = parentActivityName;						
+						activity['meta-data']['android.support.PARENT_ACTIVITY'].value = parentActivityName;						
 					}
 				}
 			}
