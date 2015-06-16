@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.2.3	16-06-2015 Joris Verbogt
+- Always send intent, even when activity is running in background
+
 ## 1.2.2	31-05-2015 Joris Verbogt
 - Added inbox
 - Added custom events

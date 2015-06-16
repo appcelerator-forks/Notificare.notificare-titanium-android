@@ -38,7 +38,7 @@
          
 		    <application>
 
-		        <!--
+		  <!--
 		     BroadcastReceiver that will receive intents from GCM
 		     services and handle them to your app's IntentService.
 		     The com.google.android.c2dm.permission.SEND permission is necessary
